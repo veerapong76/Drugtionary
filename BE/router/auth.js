@@ -13,8 +13,8 @@ router.get("/", (req, res) => {
 });
 
 // GET 1
-router.get("/:email", (req, res) => {
-  User.findOne({email: req.params.email}).exec((err, data) => {
+router.get("/:emailOrId", async (req, res) => {
+  User.findOne({ $or: [{email: req.params.emailOrId}, {name: req.params.emailOrId}]}).exec((err, data) => {
     if (err) return res.status(400).send(err);
     res.status(200).send(data);
   });
@@ -42,6 +42,13 @@ router.delete("/:_id", (req, res) => {
   User.findByIdAndDelete(req.params._id, (err, data) => {
     if (err) return res.status(400).send(err);
     res.status(200).send("ลบข้อมูลเรียบร้อย");
+  });
+});
+
+router.get("/id/:_id", (req, res) => {
+  User.findById(req.params._id).exec((err, data) => {
+    if (err) return res.status(400).send(err);
+    res.status(200).send(data);
   });
 });
 
