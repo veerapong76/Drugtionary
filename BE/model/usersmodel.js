@@ -25,8 +25,8 @@ var userSchema = mongoose.Schema(
     birthday: {
       type: String,
     },
-    role: {
-      type: String,
+    medicalStaft: {
+      type: Boolean,
     },
   },
   {
