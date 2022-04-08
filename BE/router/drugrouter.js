@@ -2,7 +2,7 @@
 
 var express = require("express");
 var router = express.Router();
-var Drug = require("../model/drugsmodel.js");
+var Drug = require("../model/drugsModel.js");
 
 // GET all
 router.get("/", (req, res) => {

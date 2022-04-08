@@ -2,7 +2,7 @@
 
 var express = require("express");
 var router = express.Router();
-var Image = require("../model/imagemodel.js");
+var Image = require("../model/imageModel.js");
 
 // GET all
 router.get("/", (req, res) => {

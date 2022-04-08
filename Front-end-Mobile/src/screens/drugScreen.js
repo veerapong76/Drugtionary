@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { auth } from "../../firebase.js";
 
 const DrugScreen = ({ navigation, route }) => {
-  const [textSeach, setSearch] = useState("");
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [user, setUser] = useState([]);
   const { id } = route.params;
+  const axios = require("axios");
 
   const getData = async () => {
     try {
       const response = await fetch("http://192.168.1.7:5000/api/drugs");
       const json = await response.json();
       setData(json);
+      const response2 = await fetch(`http://192.168.1.7:5000/api/user/${auth.currentUser.email}`)
+      const json2 = await response2.json();;
+      setUser(json2)
     } catch (error) {
       console.error(error);
     } finally {
@@ -22,6 +27,14 @@ const DrugScreen = ({ navigation, route }) => {
   useEffect(() => {
     getData();
   }, []);
+  
+  const addDrug = () => {
+    user.drugs.push(id)
+    const User = {
+      drugs: user.drugs,
+    };
+    axios.put(`http://192.168.1.7:5000/api/user/${user._id}`, User);
+  }
 
   return (
     <View style={{ flex: 1, margin: 20, backgroundColor: "#F9F8FF" }}>
@@ -46,21 +59,6 @@ const DrugScreen = ({ navigation, route }) => {
                 }}
               >
                 <Text style={{ fontSize: 24 }}>{item.name.geneticName}</Text>
-              </View>
-              <View
-                style={{
-                  flex: 2,
-                  alignItems: "center",
-                  width: "100%",
-                  padding: 10,
-                }}
-              >
-                <Image
-                  style={{ width: "30%", height: "100%" }}
-                  source={{
-                    uri: item.images[0],
-                  }}
-                />
               </View>
               <View style={{ width: "100%", paddingTop: 25 }}>
                 <Text style={{ fontSize: 16, padding: 5 }}>ชื่อยา: {item.name.geneticName}</Text>
@@ -90,41 +88,34 @@ const DrugScreen = ({ navigation, route }) => {
                       padding: 10,
                     }}
                   >
-                    <View
-                      style={{
-                        flex: 2,
+                    <View style={{ flex: 0.1 }} />
+                    <TouchableOpacity style={{flex: 2,
                         backgroundColor: "red",
                         padding: 5,
                         alignItems: "center",
-                        height: "30%",
-                        borderBottomLeftRadius: 10,
-                      }}
-                    >
-                      <TouchableOpacity
+                        height: "40%",
+                        borderBottomLeftRadius: 10,}}
                         onPress={() => navigation.navigate("drugsScreen")}
                       >
-                        <Text style={{ color: "black", alignItems: "center" }}>
-                          ย้อนกลับ
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                    <View style={{ flex: 0.1 }} />
                     <View
-                      style={{
-                        flex: 2,
+                    >
+                        <Text style={{ color: "black" }}>ยกเลิก</Text>
+                    </View>
+                    </TouchableOpacity>
+                    <View style={{ flex: 0.1 }} />
+                    <TouchableOpacity style={{flex: 2,
                         backgroundColor: "lightgreen",
                         padding: 5,
                         alignItems: "center",
-                        height: "30%",
-                        borderBottomRightRadius: 10,
-                      }}
-                    >
-                      <TouchableOpacity
-                        onPress={() => navigation.navigate("drugsScreen")}
+                        height: "40%",
+                        borderBottomRightRadius: 10,}}
+                        onPress={() => addDrug()}
                       >
+                    <View
+                    >
                         <Text style={{ color: "black" }}>เพิ่มยา</Text>
-                      </TouchableOpacity>
                     </View>
+                    </TouchableOpacity>
                   </View>
                 </View>
               </View>

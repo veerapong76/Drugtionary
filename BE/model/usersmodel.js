@@ -31,6 +31,9 @@ var userSchema = mongoose.Schema(
     requestMedicalStaff: {
       type: Boolean,
     },
+    drugs: {
+      type: Array
+    }
   },
   {
     // กำหนด collection ของ MongoDB หรือจะไม่กำหนดก็ได้

@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
   Alert,
   Modal,
-  Pressable,
+  Pressable,Picker
 } from "react-native";
 
 import { auth } from "../../firebase.js";
@@ -187,24 +187,21 @@ const loginScreen = () => {
               onChangeText={setLasname}
             />
 
-            <TextInput
-              type="text"
-              style={styles.input2}
-              placeholder={"Gender"}
-              onChangeText={setGender}
-            />
+<Picker
+        selectedValue={gender}
+        style={{ height: 50, width: 150 }}
+        onValueChange={(itemValue, itemIndex) => setGender(itemValue)}
+      >
+        <Picker.Item label="ชาย" value="Male" />
+        <Picker.Item label="หญิง" value="Female" />
+      </Picker>
             <TextInput
               type="int"
               style={styles.input2}
               placeholder={"Age"}
               onChangeText={setAge}
             />
-            {/* <TextInput
-              type="int"
-              style={styles.input2}
-              placeholder={"Birth Day"}
-              onChangeText={setBirth}
-            /> */}
+
             <View style={{ flexDirection: "row" }}>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
