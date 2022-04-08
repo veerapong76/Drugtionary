@@ -25,7 +25,10 @@ var userSchema = mongoose.Schema(
     birthday: {
       type: String,
     },
-    medicalStaft: {
+    medicalStaff: {
+      type: Boolean,
+    },
+    requestMedicalStaff: {
       type: Boolean,
     },
   },
