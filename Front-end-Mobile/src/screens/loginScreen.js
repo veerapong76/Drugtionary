@@ -116,11 +116,12 @@ const loginScreen = () => {
   const handleSignUp = () => {
     auth
       .createUserWithEmailAndPassword(email, password)
-      .then(createUser())
       .then((userCredentials) => {
         const user = userCredentials.user;
         console.log("Sign up with:", user.email);
+        createUser()
       })
+      
       .catch((error) => alert(error.message));
   };
 
@@ -143,6 +144,7 @@ const loginScreen = () => {
       gender: gender,
       age: age,
       birth: birth,
+      uid: auth.currentUser.uid
     };
     axios.post("http://192.168.1.7:5000/api/user", User);
   };

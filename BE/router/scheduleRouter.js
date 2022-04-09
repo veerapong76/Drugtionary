@@ -2,19 +2,25 @@
 
 var express = require("express");
 var router = express.Router();
-var Image = require("../model/scheduleModel.js");
+var Schedule = require("../model/scheduleModel.js");
 
 // GET all
 router.get("/", (req, res) => {
-  Image.find().exec((err, data) => {
+  Schedule.find().exec((err, data) => {
     if (err) return res.status(400).send(err);
     res.status(200).send(data);
   });
 });
 
 // GET 1
-router.get("/:_id", (req, res) => {
-  Image.findById(req.params._id).exec((err, data) => {
+router.get("/id/:_id", (req, res) => {
+  Schedule.findById(req.params._id).exec((err, data) => {
+    if (err) return res.status(400).send(err);
+    res.status(200).send(data);
+  });
+});
+router.get("/:drugOrUser", async (req, res) => {
+  Schedule.find({ $or: [{userId: req.params.drugOrUser}, {drugId: req.params.drugOrUser}]}).exec((err, data) => {
     if (err) return res.status(400).send(err);
     res.status(200).send(data);
   });
@@ -22,7 +28,7 @@ router.get("/:_id", (req, res) => {
 
 // POST (create new data)
 router.post("/", (req, res) => {
-  var obj = new Image(req.body);
+  var obj = new Schedule(req.body);
   obj.save((err, data) => {
     if (err) return res.status(400).send(err);
     res.status(200).send("เพิ่มข้อมูลเรียบร้อย");
@@ -31,7 +37,7 @@ router.post("/", (req, res) => {
 
 // PUT (update current data)
 router.put("/:_id", (req, res) => {
-  Image.findByIdAndUpdate(req.params._id, req.body, (err, data) => {
+  Schedule.findByIdAndUpdate(req.params._id, req.body, (err, data) => {
     if (err) return res.status(400).send(err);
     res.status(200).send("อัพเดทข้อมูลเรียบร้อย");
   });
@@ -39,7 +45,7 @@ router.put("/:_id", (req, res) => {
 
 // DELETE (delete 1 data)
 router.delete("/:_id", (req, res) => {
-  Image.findByIdAndDelete(req.params._id, (err, data) => {
+  Schedule.findByIdAndDelete(req.params._id, (err, data) => {
     if (err) return res.status(400).send(err);
     res.status(200).send("ลบข้อมูลเรียบร้อย");
   });

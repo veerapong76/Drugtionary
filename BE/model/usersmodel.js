@@ -3,7 +3,9 @@ var mongoose = require("mongoose");
 var userSchema = mongoose.Schema(
   {
     // กำหนด ชื่อและชนิดของ document เรา
-
+    uid:{
+      type: String
+    },
     email: {
       type: String,
     },

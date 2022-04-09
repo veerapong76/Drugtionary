@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
 
 // GET 1
 router.get("/:emailOrId", async (req, res) => {
-  User.findOne({ $or: [{email: req.params.emailOrId}, {name: req.params.emailOrId}]}).exec((err, data) => {
+  User.findOne({ $or: [{email: req.params.emailOrId}, {uid: req.params.emailOrId}]}).exec((err, data) => {
     if (err) return res.status(400).send(err);
     res.status(200).send(data);
   });
