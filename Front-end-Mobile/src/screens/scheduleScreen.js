@@ -16,6 +16,7 @@ const ScheduleScreen = () => {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [drug, setDrug] = useState([]);
+
   var moment = require('moment');
 
   const getData = async () => {
@@ -40,6 +41,7 @@ const ScheduleScreen = () => {
   useEffect(() => {
     getData();
   }, []);
+
 
 
   return (
@@ -115,7 +117,7 @@ const ScheduleScreen = () => {
                   </View>
                   <View
                   >
-                    <Switch value={item.enable}/>
+                    <Switch value={item.enable} />
                   </View>
                 </View>
               </TouchableOpacity>
