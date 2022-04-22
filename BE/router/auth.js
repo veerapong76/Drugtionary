@@ -1,4 +1,4 @@
-// Userrouter.js
+// User Router.js
 
 var express = require("express");
 var router = express.Router();
@@ -31,6 +31,13 @@ router.post("/", (req, res) => {
 
 // PUT (update current data)
 router.put("/:_id", (req, res) => {
+  User.findByIdAndUpdate(req.params._id, req.body, (err, data) => {
+    if (err) return res.status(400).send(err);
+    res.status(200).send("อัพเดทข้อมูลเรียบร้อย");
+  });
+});
+
+router.put("/id/:_id", (req, res) => {
   User.findByIdAndUpdate(req.params._id, req.body, (err, data) => {
     if (err) return res.status(400).send(err);
     res.status(200).send("อัพเดทข้อมูลเรียบร้อย");
