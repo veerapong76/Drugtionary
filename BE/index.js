@@ -34,16 +34,19 @@ app.get("/", (req, res) => {
 });
 
 // path สำหรับ MongoDB ของเรา
-var Drugs = require("./router/drugrouter");
+var Drugs = require("./router/drugRouter");
 app.use("/api/drugs", Drugs);
 
 // path สำหรับ MongoDB ของเรา
-var Images = require("./router/imagerouter");
+var Images = require("./router/imageRouter");
 app.use("/api/images", Images);
 
 // path สำหรับ MongoDB ของเรา
 var User = require("./router/auth");
 app.use("/api/user", User);
+
+var Schedule = require("./router/scheduleRouter");
+app.use("/api/schedule", Schedule);
 
 app.use((req, res, next) => {
   var err = new Error("ไม่พบ path ที่คุณต้องการ");

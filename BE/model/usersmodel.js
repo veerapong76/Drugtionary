@@ -3,7 +3,9 @@ var mongoose = require("mongoose");
 var userSchema = mongoose.Schema(
   {
     // กำหนด ชื่อและชนิดของ document เรา
-
+    uid:{
+      type: String
+    },
     email: {
       type: String,
     },
@@ -31,6 +33,9 @@ var userSchema = mongoose.Schema(
     requestMedicalStaff: {
       type: Boolean,
     },
+    drugs: {
+      type: Array
+    }
   },
   {
     // กำหนด collection ของ MongoDB หรือจะไม่กำหนดก็ได้
