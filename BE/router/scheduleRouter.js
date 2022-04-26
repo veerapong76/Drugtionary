@@ -19,6 +19,7 @@ router.get("/id/:_id", (req, res) => {
     res.status(200).send(data);
   });
 });
+
 router.get("/:drugOrUser", async (req, res) => {
   Schedule.find({ $or: [{userId: req.params.drugOrUser}, {drugId: req.params.drugOrUser}]}).exec((err, data) => {
     if (err) return res.status(400).send(err);

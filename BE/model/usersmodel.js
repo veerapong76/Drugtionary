@@ -34,7 +34,11 @@ var userSchema = mongoose.Schema(
       type: Boolean,
     },
     drugs: {
-      type: Array
+      type: Array,
+    },
+    role: {
+      type: String,
+      default: "Viewer",
     }
   },
   {
