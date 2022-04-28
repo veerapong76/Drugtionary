@@ -66,6 +66,13 @@ router.put("/id/:_id", (req, res) => {
   });
 });
 
+router.patch("/id/:_id", (req, res) => {
+  User.findByIdAndUpdate(req.params._id, req.body, (err, data) => {
+    if (err) return res.status(400).send(err);
+    res.status(200).send("อัพเดทข้อมูลเรียบร้อย");
+  });
+});
+
 // DELETE (delete 1 data)
 router.delete("/:_id", (req, res) => {
   User.findByIdAndDelete(req.params._id, (err, data) => {

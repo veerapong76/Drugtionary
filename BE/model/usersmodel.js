@@ -40,7 +40,10 @@ var userSchema = mongoose.Schema(
     schedule: [{
       type: mongoose.Schema.Types.ObjectId,
       ref: "Schedule"
-    }]
+    }],role: {
+      type: String,
+      default: "Viewer",
+    }
     
   },
   {
