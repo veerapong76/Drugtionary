@@ -7,10 +7,10 @@ var scheduleSchema = mongoose.Schema(
     enable: {
       type: Boolean,
     },
-    userId: {
+    user: {
       type: String,
     },
-    drugId: {
+    drug: {
       type: String
     },
     time: {
@@ -18,6 +18,14 @@ var scheduleSchema = mongoose.Schema(
     },
     detail: {
       type: Object
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
+    },
+    drugs: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Drugs"
     }
   },
   {

@@ -24,7 +24,7 @@ var drugsSchema = mongoose.Schema(
     },
     serialNumber: {
       type: String
-    },
+    }
   },
   {
     // กำหนด collection ของ MongoDB หรือจะไม่กำหนดก็ได้
@@ -33,5 +33,5 @@ var drugsSchema = mongoose.Schema(
 );
 
 // ถ้าไม่ได้กำหนด collection ข้างบน default จะเป็น "foods"
-var Drugs = mongoose.model("drugs", drugsSchema);
+var Drugs = mongoose.model("Drugs", drugsSchema);
 module.exports = Drugs;

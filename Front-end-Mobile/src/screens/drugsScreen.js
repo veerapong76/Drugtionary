@@ -41,7 +41,7 @@ const DrugScreen = ({ navigation }) => {
 
   return (
     <View
-      style={{ flex: 1, justifyContent: "center", backgroundColor: "#F9F8FF" }}
+      style={{ flex: 1, justifyContent: "center", backgroundColor: "#F9F8FF",paddingTop:"10%" }}
     >
       <View style={{ flex: 1, alignItems: "center", margin: 20, width: "90%" }}>
         <TextInput
@@ -57,9 +57,6 @@ const DrugScreen = ({ navigation }) => {
           value={textSeach}
           placeholder="Seach"
         />
-        <View style={{ flex: 1, alignItems: "flex-end", width: "100%" }}>
-          <Text>เพิ่มยาใหม่</Text>
-        </View>
 
         <SafeAreaView style={{ flex: 10, width: "100%" }}>
           <ScrollView>

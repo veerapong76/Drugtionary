@@ -20,6 +20,28 @@ router.get("/:emailOrId", async (req, res) => {
   });
 });
 
+router.get("/:uid/drugs", async (req, res) => {
+  User.find({ uid: req.params.uid}).populate("drugs").exec((err, data) => {
+    if (err) return res.status(400).send(err);
+    res.status(200).send(data);
+  });
+});
+
+router.get("/:uid/schedule", async (req, res) => {
+  User.find({ uid: req.params.uid}).populate("schedule").exec((err, data) => {
+    if (err) return res.status(400).send(err);
+    res.status(200).send(data);
+  });
+});
+
+router.get("/:uid/drugs&schedule", async (req, res) => {
+  User.find({ uid: req.params.uid}).populate("drugs").populate("schedule").exec((err, data) => {
+    if (err) return res.status(400).send(err);
+    res.status(200).send(data);
+  });
+});
+
+
 // POST (create new data)
 router.post("/", (req, res) => {
   var obj = new User(req.body);

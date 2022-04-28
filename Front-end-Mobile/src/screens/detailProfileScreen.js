@@ -5,7 +5,7 @@ const DetailProfileScreen = ({ navigation }) => {
   const [text, onChangeText] = React.useState("Seach");
 
   return (
-    <View style={{ flex: 1, margin: 20, backgroundColor: "#F9F8FF",shadowOffset: {
+    <View style={{ flex: 1, margin: 20, backgroundColor: "#F9F8FF",paddingTop:"10%",shadowOffset: {
       width: 0,
       height: 11,
     },

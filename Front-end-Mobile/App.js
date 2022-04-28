@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import loginScreen from "./src/screens/loginScreen";
+import drugList from "./component/drugList";
 import { auth } from "./firebase.js";
 
 
@@ -24,7 +25,7 @@ export default function App() {
           headerShown: false,
         }}
       >
-        <Stack.Screen name="login" component={loginScreen} />
+        <Stack.Screen name="login" component={drugList} />
         <Stack.Screen name="logged" component={ThirdScreenNavigator} />
       </Stack.Navigator>
     </NavigationContainer>

@@ -19,12 +19,14 @@ router.get("/id/:_id", (req, res) => {
     res.status(200).send(data);
   });
 });
-router.get("/:drugOrUser", async (req, res) => {
-  Schedule.find({ $or: [{userId: req.params.drugOrUser}, {drugId: req.params.drugOrUser}]}).exec((err, data) => {
+
+router.get("/:_id/drugs", async (req, res) => {
+  Schedule.find({ _id: req.params._id}).populate("drugs").exec((err, data) => {
     if (err) return res.status(400).send(err);
     res.status(200).send(data);
   });
 });
+
 
 // POST (create new data)
 router.post("/", (req, res) => {

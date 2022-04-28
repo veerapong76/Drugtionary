@@ -10,7 +10,8 @@ import {
   TouchableOpacity,
   Alert,
   Modal,
-  Pressable,Picker
+  Pressable,
+  Picker,
 } from "react-native";
 
 import { auth } from "../../firebase.js";
@@ -119,9 +120,9 @@ const loginScreen = () => {
       .then((userCredentials) => {
         const user = userCredentials.user;
         console.log("Sign up with:", user.email);
-        createUser()
+        createUser();
       })
-      
+
       .catch((error) => alert(error.message));
   };
 
@@ -144,7 +145,7 @@ const loginScreen = () => {
       gender: gender,
       age: age,
       birth: birth,
-      uid: auth.currentUser.uid
+      uid: auth.currentUser.uid,
     };
     axios.post("http://192.168.1.7:5000/api/user", User);
   };
@@ -189,14 +190,14 @@ const loginScreen = () => {
               onChangeText={setLasname}
             />
 
-<Picker
-        selectedValue={gender}
-        style={{ height: 50, width: 150 }}
-        onValueChange={(itemValue, itemIndex) => setGender(itemValue)}
-      >
-        <Picker.Item label="ชาย" value="Male" />
-        <Picker.Item label="หญิง" value="Female" />
-      </Picker>
+            <Picker
+              selectedValue={gender}
+              style={{ height: 50, width: 150 }}
+              onValueChange={(itemValue, itemIndex) => setGender(itemValue)}
+            >
+              <Picker.Item label="ชาย" value="Male" />
+              <Picker.Item label="หญิง" value="Female" />
+            </Picker>
             <TextInput
               type="int"
               style={styles.input2}

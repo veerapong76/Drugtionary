@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { auth } from "../../firebase.js";
 
 const DrugScreen = ({ navigation, route }) => {
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [user, setUser] = useState([]);
   const { id } = route.params;
@@ -11,7 +11,7 @@ const DrugScreen = ({ navigation, route }) => {
 
   const getData = async () => {
     try {
-      const response = await fetch("http://192.168.1.7:5000/api/drugs");
+      const response = await fetch(`http://192.168.1.7:5000/api/drugs/${id}`);
       const json = await response.json();
       setData(json);
       const response2 = await fetch(`http://192.168.1.7:5000/api/user/${auth.currentUser.email}`)
@@ -20,7 +20,7 @@ const DrugScreen = ({ navigation, route }) => {
     } catch (error) {
       console.error(error);
     } finally {
-      setLoading(false);
+      setLoading(true);
     }
   };
 
@@ -37,11 +37,10 @@ const DrugScreen = ({ navigation, route }) => {
   }
 
   return (
-    <View style={{ flex: 1, margin: 20, backgroundColor: "#F9F8FF" }}>
+    <View style={{ flex: 1, margin: 20, backgroundColor: "#F9F8FF",paddingTop:"10%" }}>
       {
-        data.filter(item => item._id == id).map((item, key) => {
-          return (
-            <View key={key} style={{ flex: 2, backgroundColor: "#F9F8FF",shadowColor: "#000",
+        isLoading &&
+            <View style={{ flex: 2, backgroundColor: "#F9F8FF",shadowColor: "#000",
             shadowOffset: {
               width: 0,
               height: 11,
@@ -58,12 +57,12 @@ const DrugScreen = ({ navigation, route }) => {
                   paddingTop: 20,
                 }}
               >
-                <Text style={{ fontSize: 24 }}>{item.name.geneticName}</Text>
+                <Text style={{ fontSize: 24 }}>{data.name.geneticName}</Text>
               </View>
               <View style={{ width: "100%", paddingTop: 25 }}>
-                <Text style={{ fontSize: 16, padding: 5 }}>ชื่อยา: {item.name.geneticName}</Text>
+                <Text style={{ fontSize: 16, padding: 5 }}>ชื่อยา: {data.name.geneticName}</Text>
                 <Text style={{ fontSize: 16, padding: 5 }}>
-                  สรรพคุณ: {item.detail}
+                  สรรพคุณ: {data.detail}
                 </Text>
                 <Text style={{ fontSize: 16, padding: 5 }}>
                   จำนวนครั้งในการรับประทาน: 3 ครั้ง / หลังอาหาร
@@ -120,8 +119,7 @@ const DrugScreen = ({ navigation, route }) => {
                 </View>
               </View>
             </View>
-          );
-        })}
+         }
     </View>
   );
 };

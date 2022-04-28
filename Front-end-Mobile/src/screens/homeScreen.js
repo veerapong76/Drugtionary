@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
 const HomeScreen = ({ navigation }) => {
   return (
     <View
-      style={{ flexDirection: "column", flex: 1, backgroundColor: "#F9F8FF" }}
+      style={{ flexDirection: "column", flex: 1, backgroundColor: "#F9F8FF",paddingTop:"10%" }}
     >
       <View
         style={{
