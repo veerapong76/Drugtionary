@@ -147,7 +147,7 @@ const loginScreen = () => {
       birth: birth,
       uid: auth.currentUser.uid,
     };
-    axios.post("http://192.168.1.7:5000/api/user", User);
+    axios.post("http://192.168.1.50:5000/api/user", User);
   };
 
   return (
@@ -254,10 +254,10 @@ const loginScreen = () => {
             <Text>Register</Text>
           </TouchableOpacity>
 
-          <Text>Or</Text>
+          {/* <Text>Or</Text> */}
         </View>
 
-        <View style={{ alignItems: "center" }}>
+        {/* <View style={{ alignItems: "center" }}>
           <TouchableOpacity style={styles.button2}>
             <Image
               style={styles.logo2}
@@ -270,7 +270,7 @@ const loginScreen = () => {
               source={require("../../assets/f.png")}
             />
           </TouchableOpacity>
-        </View>
+        </View> */}
       </SafeAreaView>
     </View>
   );

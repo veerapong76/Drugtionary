@@ -1,5 +1,26 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  SafeAreaView,
+  ScrollView,
+} from "react-native";
+import {
+  Box,
+  Heading,
+  AspectRatio,
+  Image,
+  Center,
+  HStack,
+  Stack,
+  NativeBaseProvider,
+  Divider,
+  VStack,
+  Input,
+  ZStack,Button,Text
+} from "native-base";
+import CardDrug from "../../component/cardDrug";
 import { auth } from "../../firebase.js";
 
 const DrugScreen = ({ navigation, route }) => {
@@ -11,12 +32,14 @@ const DrugScreen = ({ navigation, route }) => {
 
   const getData = async () => {
     try {
-      const response = await fetch(`http://192.168.1.7:5000/api/drugs/${id}`);
+      const response = await fetch(`http://192.168.1.50:5000/api/drugs/${id}`);
       const json = await response.json();
       setData(json);
-      const response2 = await fetch(`http://192.168.1.7:5000/api/user/${auth.currentUser.email}`)
-      const json2 = await response2.json();;
-      setUser(json2)
+      const response2 = await fetch(
+        `http://192.168.1.50:5000/api/user/${auth.currentUser.email}`
+      );
+      const json2 = await response2.json();
+      setUser(json2);
     } catch (error) {
       console.error(error);
     } finally {
@@ -27,99 +50,74 @@ const DrugScreen = ({ navigation, route }) => {
   useEffect(() => {
     getData();
   }, []);
-  
+
   const addDrug = () => {
-    user.drugs.push(id)
+    user.drugs.push(id);
     const User = {
       drugs: user.drugs,
     };
-    axios.put(`http://192.168.1.7:5000/api/user/${user._id}`, User);
-  }
+    axios.put(`http://192.168.1.50:5000/api/user/${user._id}`, User);
+  };
 
   return (
-    <View style={{ flex: 1, margin: 20, backgroundColor: "#F9F8FF",paddingTop:"10%" }}>
-      {
-        isLoading &&
-            <View style={{ flex: 2, backgroundColor: "#F9F8FF",shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 11,
-            },
-            shadowOpacity: 0.55,
-            shadowRadius: 14.78,
-            
-            elevation: 22,padding: 20, }}>
-              <View
-                style={{
-                  flex: 1,
-                  width: "100%",
-                  alignItems: "center",
-                  paddingTop: 20,
-                }}
-              >
-                <Text style={{ fontSize: 24 }}>{data.name.geneticName}</Text>
-              </View>
-              <View style={{ width: "100%", paddingTop: 25 }}>
-                <Text style={{ fontSize: 16, padding: 5 }}>ชื่อยา: {data.name.geneticName}</Text>
-                <Text style={{ fontSize: 16, padding: 5 }}>
-                  สรรพคุณ: {data.detail}
-                </Text>
-                <Text style={{ fontSize: 16, padding: 5 }}>
-                  จำนวนครั้งในการรับประทาน: 3 ครั้ง / หลังอาหาร
-                </Text>
-                <Text style={{ fontSize: 16, padding: 5 }}>
-                  จำนวนเม็ดต่อการรับประทาน: 1 เม็ด / ครั้ง
-                </Text>
-                <Text style={{ fontSize: 16, padding: 5 }}>
-                  ข้อควรระวัง: หากมีภาวะการทำงานของตับผิดปกติ
-                  ต้องปรึกษาแพทย์ก่อนใช้ยาเสมอ
-                  ห้ามใช้ยากับคนที่แพ้ยาพาราเซตามอลเด็ดขาด อาการแพ้ยา ได้แก่
-                  ผื่นขึ้น แน่นหน้าอก หายใจไม่ออก ห้ามใช้ยาหมดอายุ
-                </Text>
-              </View>
-              <View style={{ flex: 3, width: "100%", paddingTop: 20 }}>
-                <View style={{ flexDirection: "column", flex: 1 }}>
-                  <View
-                    style={{
-                      flex: 1,
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      padding: 10,
-                    }}
-                  >
-                    <View style={{ flex: 0.1 }} />
-                    <TouchableOpacity style={{flex: 2,
-                        backgroundColor: "red",
-                        padding: 5,
-                        alignItems: "center",
-                        height: "40%",
-                        borderBottomLeftRadius: 10,}}
-                        onPress={() => navigation.navigate("drugsScreen")}
-                      >
-                    <View
-                    >
-                        <Text style={{ color: "black" }}>ยกเลิก</Text>
-                    </View>
-                    </TouchableOpacity>
-                    <View style={{ flex: 0.1 }} />
-                    <TouchableOpacity style={{flex: 2,
-                        backgroundColor: "lightgreen",
-                        padding: 5,
-                        alignItems: "center",
-                        height: "40%",
-                        borderBottomRightRadius: 10,}}
-                        onPress={() => addDrug()}
-                      >
-                    <View
-                    >
-                        <Text style={{ color: "black" }}>เพิ่มยา</Text>
-                    </View>
-                    </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-            </View>
-         }
+    <View style={{ flex: 1, backgroundColor: "#F9F8FF", paddingTop: "10%" }}>
+      
+      {isLoading && (
+        <NativeBaseProvider>
+          <Box bg="#e5e7eb" m="5" pt="3" rounded="2xl">
+          <SafeAreaView style={{ width: "100%" }}>
+              <ScrollView>
+          <Center>  
+            <Heading>{data.name.geneticName}</Heading>
+            <Center m="5" w="50%" rounded="xl" h="200">
+              <AspectRatio w="100%" ratio={20 / 20}>
+                <Image
+                  rounded="xl"
+                  source={{
+                    uri: data.images[0],
+                  }}
+                  alt="test"
+                />
+              </AspectRatio>
+            </Center>
+            <Box>
+              <Box w="80%">
+                <Text fontSize="md">ชื่อสามัญ: {data.name.geneticName}</Text>
+                <Text fontSize="md">ชื่อแบรนด์: {data.name.brandName}</Text>
+                <Text fontSize="md">รหัสผลิตภัณฑ์: {data.serialNumber}</Text>
+                <Text fontSize="md">รายละเอียด : {data.detail}</Text>
+                <HStack>
+                  <Text fontSize="md">เวลาในการรับประทาน: </Text>
+                  {data.uses.morning ? <Text fontSize="md">เช้า, </Text> : <></>}
+                  {data.uses.afternoon ? <Text fontSize="md">กลางวัน, </Text> : <></>}
+                  {data.uses.evening ? <Text fontSize="md">เย็น, </Text> : <></>}
+                  {data.uses.night ? <Text fontSize="md">ก่อนนอน</Text> : <></>}
+                </HStack>
+                <HStack>
+                  <Text fontSize="md">ข้อห้าม: </Text>
+                  {data.warnings.pregnant ? <Text fontSize="md">ไม่เหมาะกับคนท้อง, </Text> : <></>}
+                  {data.warnings.allergy ? <Text fontSize="md">ไม่เหมาะกับคนเป็นภูมิแพ้, </Text> : <></>}
+                  {data.warnings.aged ? <Text fontSize="md">ไม่เหมาะกับผู้สูงวัย, </Text> : <></>}
+                  {data.warnings.baby ? <Text fontSize="md">ไม่เหมาะกับเด็ก</Text> : <></>}
+                </HStack>
+              </Box>
+            </Box>
+            <HStack alignItems="center" p="5">
+              <Button variant="subtle" colorScheme="secondary" shadow={2} onPress={() => navigation.navigate("drugsScreen")}>
+                ย้อนกลับ
+              </Button>
+              <Divider bg="emerald.500" thickness="2" mx="2" orientation="vertical" />
+              <Divider bg="amber.500" thickness="2" mx="2" orientation="vertical" />
+              <Button variant="subtle" shadow={2} onPress={() => addDrug()}>
+                เพิ่มยา
+              </Button>
+            </HStack>
+          </Center>
+          </ScrollView></SafeAreaView>
+          </Box>
+        </NativeBaseProvider>
+      )}
+      
     </View>
   );
 };

@@ -131,13 +131,13 @@ const ScheduleScreen = () => {
   const getData = async () => {
     try {
       const response = await fetch(
-        `http://192.168.1.7:5000/api/user/${auth.currentUser.uid}/drugs&schedule`
+        `http://192.168.1.50:5000/api/user/${auth.currentUser.uid}/drugs&schedule`
       );
       const json = await response.json();
       setData(json);
 
       const response2 = await fetch(
-        `http://192.168.1.7:5000/api/schedule/`
+        `http://192.168.1.50:5000/api/schedule/`
       );
       const json2 = await response2.json();
       setSchedule(json2);
@@ -161,7 +161,7 @@ const ScheduleScreen = () => {
       
     };
     
-    axios.post("http://192.168.1.7:5000/api/schedule", Schedule)
+    axios.post("http://192.168.1.50:5000/api/schedule", Schedule)
     setModalVisible(!modalVisible)
   };
 
@@ -206,6 +206,7 @@ const ScheduleScreen = () => {
           </View>
         </View>
       </View>
+      <View>
       {isLoading && (
         <SafeAreaView style={{ width: "100%" }}>
           <ScrollView>
@@ -275,6 +276,7 @@ const ScheduleScreen = () => {
           </ScrollView>
         </SafeAreaView>
       )}
+      </View>
       <View style={{ flex: 0.1 }} />
       <Modal
         animationType="fade"

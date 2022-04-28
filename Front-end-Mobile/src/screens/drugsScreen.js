@@ -1,3 +1,7 @@
+import { VStack,Heading,Input,Icon,NativeBaseProvider } from "native-base";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
+
 import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
@@ -9,6 +13,8 @@ import {
   SafeAreaView,
   ScrollView,
 } from "react-native";
+import CardDrug from "../../component/cardDrug";
+import DrugList from "../../component/drugList";
 
 const DrugScreen = ({ navigation }) => {
   const [textSeach, setSearch] = useState("");
@@ -17,7 +23,7 @@ const DrugScreen = ({ navigation }) => {
 
   const getData = async () => {
     try {
-      const response = await fetch("http://192.168.1.7:5000/api/drugs");
+      const response = await fetch("http://192.168.1.50:5000/api/drugs");
       const json = await response.json();
       setData(json);
     } catch (error) {
@@ -44,182 +50,38 @@ const DrugScreen = ({ navigation }) => {
       style={{ flex: 1, justifyContent: "center", backgroundColor: "#F9F8FF",paddingTop:"10%" }}
     >
       <View style={{ flex: 1, alignItems: "center", margin: 20, width: "90%" }}>
-        <TextInput
-          style={{
-            height: 40,
-            margin: 12,
-            borderWidth: 1,
-            padding: 10,
-            borderRadius: 10,
-            width: "100%",
-          }}
-          onChangeText={(text) => onChangeSearch(text)}
-          value={textSeach}
-          placeholder="Seach"
-        />
+      <NativeBaseProvider>
+      <VStack w="100%"  alignSelf="center">
+        <Input onChangeText={(text) => onChangeSearch(text)}
+          value={textSeach} placeholder="Search Drugs" width="100%" borderRadius="4" py="3" px="1" fontSize="14" InputLeftElement={<Icon m="2" ml="3" size="6" color="gray.400" as={<MaterialIcons name="search" />} />} InputRightElement={<Icon m="2" mr="3" size="6" color="gray.400" as={<MaterialIcons name="mic" />} />} />
+      </VStack>
+      </NativeBaseProvider>
 
-        <SafeAreaView style={{ flex: 10, width: "100%" }}>
+        <SafeAreaView style={{ flex: 10,marginTop:15, width: "100%" }}>
           <ScrollView>
             {textSeach != "" &&
               filterDrugs.map((item, key) => {
                 return (
-                  <View
-                    style={{
-                      flex: 3,
-                      justifyContent: "center",
-                      width: "100%",
-                      paddingLeft: 10,
-                      paddingRight: 10,
-                      paddingBottom: 10,
-                    }}
-                    key={key}
-                  >
-                    <TouchableOpacity
+                  <TouchableOpacity
                       onPress={() =>
                         navigation.navigate("drugScreen", { id: item._id })
                       }
-                      style={{
-                        flex: 1,
-                        justifyContent: "center",
-                        backgroundColor: "white",
-                        width: "100%",
-                        borderWidth: 1,
-                        borderRadius: 10,
-                        borderColor: "white",
-                        marginBottom: 10,
-                        shadowColor: "#000",
-                        shadowOffset: {
-                          width: 0,
-                          height: 4,
-                        },
-                        shadowOpacity: 0.32,
-                        shadowRadius: 5.46,
-
-                        elevation: 9,
-                      }}
                     >
-                      <View
-                        style={{
-                          flex: 1,
-                          flexDirection: "row",
-                          justifyContent: "space-between",
-                          padding: 10,
-                        }}
-                      >
-                        <View
-                          style={{
-                            flex: 1,
-                            paddingRight: 10,
-                            borderRightWidth: 0.5,
-                            borderRightColor: "black",
-                          }}
-                        >
-                          <Image
-                            style={{
-                              width: "70%",
-                              height: undefined,
-                              aspectRatio: 1,
-                            }}
-                            source={{
-                              uri: item.images[0],
-                            }}
-                          />
-                        </View>
-                        <View style={{ flex: 0.1 }} />
-                        <View style={{ flex: 2, paddingRight: 10 }}>
-                          <Text style={{ color: "black", fontSize: 15 }}>
-                            ยา: {item.name.geneticName}
-                          </Text>
-                          <Text style={{ color: "black", fontSize: 15 }}>
-                            สรรพคุณ: {item.detail}
-                          </Text>
-                          <Text style={{ color: "black", fontSize: 15 }}>
-                            วิธีการรับประทาน: 2 เม็ด/ครั้ง
-                          </Text>
-                        </View>
-                      </View>
-                    </TouchableOpacity>
-                  </View>
+                  <DrugList drug={item}/>
+                  </TouchableOpacity>
                 );
               })}
 
             {textSeach == "" &&
               data.map((item, key) => {
                 return (
-                  <View
-                    style={{
-                      flex: 3,
-                      justifyContent: "center",
-                      width: "100%",
-                      padding: 10,
-                    }}
-                    key={key}
-                  >
-                    <TouchableOpacity
+                  <TouchableOpacity
                       onPress={() =>
                         navigation.navigate("drugScreen", { id: item._id })
                       }
-                      style={{
-                        flex: 1,
-                        justifyContent: "center",
-                        backgroundColor: "white",
-                        width: "100%",
-                        borderWidth: 1,
-                        borderRadius: 10,
-                        borderColor: "white",
-                        shadowColor: "#000",
-                        shadowOffset: {
-                          width: 0,
-                          height: 4,
-                        },
-                        shadowOpacity: 0.32,
-                        shadowRadius: 5.46,
-
-                        elevation: 9,
-                      }}
                     >
-                      <View
-                        style={{
-                          flex: 1,
-                          flexDirection: "row",
-                          justifyContent: "space-between",
-                          padding: 10,
-                        }}
-                      >
-                        <View
-                          style={{
-                            flex: 1,
-                            paddingRight: 10,
-                            borderRightWidth: 0.5,
-                            borderRightColor: "black",
-                          }}
-                        >
-                          <Image
-                            style={{
-                              width: "70%",
-                              height: undefined,
-                              aspectRatio: 1,
-                            }}
-                            source={{
-                              uri: item.images[0],
-                            }}
-                          />
-                        </View>
-                        <View style={{ flex: 0.1 }} />
-                        <View style={{ flex: 2, paddingRight: 10 }}>
-                          <Text style={{ color: "black", fontSize: 15 }}>
-                            ยา: {item.name.geneticName}
-                          </Text>
-                          <Text style={{ color: "black", fontSize: 15 }}>
-                            สรรพคุณ: {item.detail.substring(0, 100)}...
-                          </Text>
-                          <Text style={{ color: "black", fontSize: 15 }}>
-                            วิธีการรับประทาน: 2 เม็ด/ครั้ง
-                          </Text>
-                        </View>
-                      </View>
-                    </TouchableOpacity>
-                  </View>
+                  <DrugList drug={item}/>
+                  </TouchableOpacity>
                 );
               })}
           </ScrollView>
