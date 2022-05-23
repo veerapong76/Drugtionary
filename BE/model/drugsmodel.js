@@ -4,11 +4,8 @@ var mongoose = require("mongoose");
 var drugsSchema = mongoose.Schema(
   {
     // กำหนด ชื่อและชนิดของ document เรา
-    geneticName: {
-      type: String
-    },
-    brandName: {
-      type: String
+    name: {
+      type: Object
     },
     uses: {
       type: Object
