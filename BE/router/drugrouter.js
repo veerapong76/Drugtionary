@@ -23,13 +23,6 @@ router.get("/:_id", (req, res) => {
   });
 });
 
-router.get("/name/:name", (req, res) => {
-  Drug.findOne({geneticName: req.params.name.geneticName}).exec((err, data) => {
-    if (err) return res.status(400).send(err);
-    res.status(200).send(data);
-  });
-});
-
 // POST (create new data)
 router.post("/", async (req, res) => {
   const imagesMediaLink = [];
