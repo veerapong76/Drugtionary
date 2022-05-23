@@ -58,7 +58,7 @@ const DrugScreen = ({ navigation }) => {
     formdata.append("file", {uri: pickedImagePath,name: filename,type})
 
     let requestOptions = {
-      medthod: 'POST',
+      method: 'POST',
       body: formdata,
       headers: {
         'content-type': 'multipart/form-data'
@@ -67,6 +67,10 @@ const DrugScreen = ({ navigation }) => {
 
     let response = await fetch(host, requestOptions);
     let json_data = await response.json()
+
+    if (response.status == 200) {
+      console.log(json_data)
+    }
 
   }
 
@@ -162,7 +166,9 @@ const DrugScreen = ({ navigation }) => {
                   >
                     ยกเลิก
                   </Button>
-                  <Button>ตกลง</Button>
+                  <Button onPress={() => {
+                      uploadImage()
+                    }}>ตกลง</Button>
                 </Button.Group>
               </Modal.Footer>
             </Modal.Content>
