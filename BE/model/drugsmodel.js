@@ -24,6 +24,9 @@ var drugsSchema = mongoose.Schema(
     },
     serialNumber: {
       type: String
+    },
+    nameImageSearch: {
+      type: String
     }
   },
   {
