@@ -99,7 +99,7 @@ const loginScreen = () => {
   const [lastname, setLasname] = useState("");
   const [gender, setGender] = useState("");
   const [age, setAge] = useState(0);
-  const [birth, setBirth] = useState(0);
+  const [blood, setBlood] = useState(0);
   const [password, setPassword] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
@@ -147,7 +147,7 @@ const loginScreen = () => {
       birth: birth,
       uid: auth.currentUser.uid,
     };
-    axios.post("http://192.168.1.50:5000/api/user", User);
+    axios.post("http://192.168.1.7:5000/api/user", User);
   };
 
   return (

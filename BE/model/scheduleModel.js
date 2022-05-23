@@ -7,13 +7,13 @@ var scheduleSchema = mongoose.Schema(
     enable: {
       type: Boolean,
     },
-    user: {
+    userId: {
       type: String,
     },
     drug: {
       type: String
     },
-    time: {
+    date: {
       type: Date
     },
     detail: {

@@ -30,6 +30,7 @@ const FirstScreenNavigator = () => {
     >
       <Stack.Screen name="drugsScreen" component={drugsScreen} />
       <Stack.Screen name="drugScreen" component={drugScreen} />
+      <Stack.Screen name="result" component={drugScreen} />
     </Stack.Navigator>
   );
 };

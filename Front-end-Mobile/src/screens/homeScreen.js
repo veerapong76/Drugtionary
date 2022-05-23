@@ -31,7 +31,7 @@ const HomeScreen = ({ navigation }) => {
   const getData = async () => {
     try {
       const response = await fetch(
-        `http://192.168.1.50:5000/api/user/${auth.currentUser.uid}/drugs`
+        `http://192.168.1.7:5000/api/user/${auth.currentUser.uid}/drugs`
       );
       const json = await response.json();
       setData(json);
@@ -85,10 +85,9 @@ const HomeScreen = ({ navigation }) => {
                 w="100%"
                 rounded="3xl"
                 shadow={7}
+                p="5"
               >
-                <Center>
-                  <Text fontSize="5xl" color="white">18.00 น.</Text>
-                </Center>
+                  <Text fontSize="xl" color="white">ไม่มีการแจ้งเตือนในปัจจุบัน</Text>
               </Box>
             </ZStack>
           </Box>

@@ -27,6 +27,13 @@ router.get("/:_id/drugs", async (req, res) => {
   });
 });
 
+router.get("/user/:userId", async (req, res) => {
+  Schedule.find({ userId: req.params.userId}).populate("drugs").exec((err, data) => {
+    if (err) return res.status(400).send(err);
+    res.status(200).send(data);
+  });
+});
+
 
 // POST (create new data)
 router.post("/", (req, res) => {

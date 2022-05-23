@@ -36,10 +36,12 @@ const ProfileScreen = ({ navigation }) => {
   const [age, setAge] = useState(0);
   const axios = require("axios");
 
+  
+
   const getData = async () => {
     try {
       const response = await fetch(
-        `http://192.168.1.50:5000/api/user/${auth.currentUser.uid}/drugs`
+        `http://192.168.1.7:5000/api/user/${auth.currentUser.uid}/drugs`
       );
       const json = await response.json();
       setData(json);
@@ -61,7 +63,7 @@ const ProfileScreen = ({ navigation }) => {
       lastname: lastname,
       age: age,
     };
-    axios.put(`http://192.168.1.50:5000/api/user/${data[0]._id}`, User);
+    axios.put(`http://192.168.1.7:5000/api/user/${data[0]._id}`, User);
     setShowModal(false);
     setLoading(false);
   };
@@ -95,16 +97,6 @@ const ProfileScreen = ({ navigation }) => {
               bg="#0083CD"
               shadow="5"
             >
-              <Box flex="1" rounded="md">
-                <Image
-                  rounded="xl"
-                  size="xl"
-                  source={{
-                    uri: "https://img.lovepik.com/original_origin_pic/18/04/28/c893d9cbbd4a7ce23b2a102d47399519.png_wh860.png",
-                  }}
-                  alt="image"
-                />
-              </Box>
               <VStack flex="3" space="2">
                 <Text fontSize="xl" color="white">
                   ชื่อ-สกุล : {data[0].name} {data[0].lastname}
@@ -164,15 +156,15 @@ const ProfileScreen = ({ navigation }) => {
               <Modal.Body>
                 <FormControl>
                   <FormControl.Label>ชื่อ</FormControl.Label>
-                  <Input onChangeText={setName} />
+                  <Input onChangeText={setName} value={data[0].name}/>
                 </FormControl>
                 <FormControl mt="3">
                   <FormControl.Label>นามสกุล</FormControl.Label>
-                  <Input onChangeText={setLasname} />
+                  <Input onChangeText={setLasname} value={data[0].lastname}/>
                 </FormControl>
                 <FormControl mt="3">
                   <FormControl.Label>อายุ</FormControl.Label>
-                  <Input onChangeText={setAge} />
+                  <Input onChangeText={setAge} value={data[0].age}/>
                 </FormControl>
               </Modal.Body>
               <Modal.Footer>

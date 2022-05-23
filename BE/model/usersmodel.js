@@ -24,14 +24,14 @@ var userSchema = mongoose.Schema(
     age: {
       type: String,
     },
-    birthday: {
+    bloodType: {
       type: String,
     },
-    medicalStaff: {
-      type: Boolean,
+    weight: {
+      type: String,
     },
-    requestMedicalStaff: {
-      type: Boolean,
+    height: {
+      type: String,
     },
     drugs: [{
       type: mongoose.Schema.Types.ObjectId,

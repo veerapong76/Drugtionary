@@ -11,11 +11,23 @@ import {
   Modal,
   Pressable,
   Picker,
-  TextInput,Alert
+  TextInput,
+  Alert,
 } from "react-native";
 import { auth } from "../../firebase.js";
 import { Switch } from "react-native-switch";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import CardSchedule from "../../component/cardSchedule.js";
+import * as Notifications from "expo-notifications";
+import notificationControll from "../../component/notificationControll.js";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -101,10 +113,20 @@ const ScheduleScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [drug, setDrug] = useState("");
   const [dosage, setDosage] = useState();
-  const [time, setTime] = useState(new Date() );
+  const [date, setDate] = useState(new Date(Date.now()));
   const [timeVisible, setTimeVisible] = useState(false);
 
   const axios = require("axios");
+
+  function schedulePushNotification() {
+    Notifications.scheduleNotificationAsync({
+      content: {
+        title: "แจ้งเตือนรับประทานยา",
+        body: "คุณต้องรับประทานยา Paracetamol จำนวน 1 เม็ด",
+      },
+      trigger: { hour:date.getHours(),minute: date.getMinutes(),repeats:true },
+    });
+  }
 
   const showDateTimePicker = () => {
     setTimeVisible(true);
@@ -122,7 +144,7 @@ const ScheduleScreen = () => {
       hideDateTimePicker();
       return;
     }
-    setTime(datetime);
+    setDate(new Date(datetime));
     hideDateTimePicker();
   };
 
@@ -131,13 +153,13 @@ const ScheduleScreen = () => {
   const getData = async () => {
     try {
       const response = await fetch(
-        `http://192.168.1.50:5000/api/user/${auth.currentUser.uid}/drugs&schedule`
+        `http://192.168.1.7:5000/api/user/${auth.currentUser.uid}/drugs&schedule`
       );
       const json = await response.json();
       setData(json);
 
       const response2 = await fetch(
-        `http://192.168.1.50:5000/api/schedule/`
+        `http://192.168.1.7:5000/api/schedule/user/${auth.currentUser.uid}`
       );
       const json2 = await response2.json();
       setSchedule(json2);
@@ -150,24 +172,24 @@ const ScheduleScreen = () => {
 
   const createSchedule = () => {
     const Schedule = {
-      date: time,
+      date: date,
       enable: true,
       drugs: drug,
       detail: {
         dose: dosage,
-        name: data[0].drugs[0].name.geneticName
       },
-      user: data[0]._id
-      
+      userId: auth.currentUser.uid,
     };
-    
-    axios.post("http://192.168.1.50:5000/api/schedule", Schedule)
-    setModalVisible(!modalVisible)
+
+    axios.post("http://192.168.1.7:5000/api/schedule", Schedule);
+    schedulePushNotification()
+    setModalVisible(!modalVisible);
+    setLoading(false);
   };
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [isLoading]);
 
   return (
     <View
@@ -198,7 +220,7 @@ const ScheduleScreen = () => {
         >
           <Text style={{ fontSize: 18 }}>การแจ้งเตือน</Text>
           <View style={{ alignItems: "flex-end" }}>
-            <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
               <View>
                 <Text style={{ color: "black" }}>เพิ่มการแจ้งเตือน</Text>
               </View>
@@ -206,76 +228,22 @@ const ScheduleScreen = () => {
           </View>
         </View>
       </View>
-      <View>
-      {isLoading && (
-        <SafeAreaView style={{ width: "100%" }}>
-          <ScrollView>
-            {schedule.map((item, key) => {
-              return (
-                <View
-                  style={{
-                    flex: 3,
-                    justifyContent: "center",
-                    width: "100%",
-                    padding: 10,
-                  }}
-                >
-                  <TouchableOpacity
-                    style={{
-                      justifyContent: "center",
-                      backgroundColor: "white",
-                      width: "100%",
-                      borderWidth: 1,
-                      borderRadius: 10,
-                      borderColor: "white",
-                      shadowColor: "#000",
-                      shadowOffset: {
-                        width: 0,
-                        height: 4,
-                      },
-                      shadowOpacity: 0.32,
-                      shadowRadius: 5.46,
-
-                      elevation: 9,
-                    }}
-                  >
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        padding: 10,
-                        width: "80%",
-                      }}
-                    >
-                      <View style={{ flex: 2, paddingRight: 10 }} key={key}>
-                        <Text style={{ color: "black", fontSize: 15 }}>
-                          เวลา: {moment(item.date).format("LT")}
-                        </Text>
-                        <Text style={{ color: "black", fontSize: 15 }}>
-                          ยา: {item.detail.name}
-                        </Text>
-                        <Text style={{ color: "black", fontSize: 15 }}>
-                          {item.detail.beforeMeal ? (
-                            <Text>ทานก่อนอาหาร</Text>
-                          ) : (
-                            <Text>ทานหลังอาหาร</Text>
-                          )}
-                        </Text>
-                        <Text style={{ color: "black", fontSize: 15 }}>
-                          ทาน: {item.detail.dose} เม็ด
-                        </Text>
-                      </View>
-                      <View>
-                        <Switch value={item.enable} />
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              );
-            })}
-          </ScrollView>
-        </SafeAreaView>
-      )}
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
+        {isLoading && (
+          <SafeAreaView style={{ width: "100%" }}>
+            <ScrollView>
+              {schedule.map((item, key) => {
+                return <CardSchedule schedule={item} />;
+              })}
+            </ScrollView>
+          </SafeAreaView>
+        )}
       </View>
       <View style={{ flex: 0.1 }} />
       <Modal
@@ -299,14 +267,14 @@ const ScheduleScreen = () => {
             >
               <TouchableOpacity onPress={() => showDateTimePicker()}>
                 <Text style={{ fontSize: 18 }}>
-                  เวลา {moment(time).format("LT")}
+                  เวลา {moment(date).format("LT")}
                 </Text>
               </TouchableOpacity>
             </View>
 
             <Picker
               style={{ height: 50, width: 150 }}
-              onValueChange={(itemValue, itemIndex) => setDrug(itemValue)}
+              onValueChange={(value, itemIndex) => setDrug(value)}
             >
               {isLoading &&
                 data[0].drugs.map((item) => {
@@ -332,7 +300,10 @@ const ScheduleScreen = () => {
               >
                 <Text style={styles.textStyle}>ยกเลิก</Text>
               </Pressable>
-              <Pressable style={[styles.button, styles.buttonClose]} onPress={() => createSchedule()}>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() => createSchedule()}
+              >
                 <Text style={styles.textStyle}>เพิ่มแจ้งเตือน</Text>
               </Pressable>
             </View>

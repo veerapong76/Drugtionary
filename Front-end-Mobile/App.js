@@ -5,9 +5,9 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import loginScreen from "./src/screens/loginScreen";
-import drugList from "./component/drugList";
-import { auth } from "./firebase.js";
-import cardDrug from "./component/cardDrug";
+import notificationControll from "./component/notificationControll";
+
+console.disableYellowBox = true;
 
 
 import {

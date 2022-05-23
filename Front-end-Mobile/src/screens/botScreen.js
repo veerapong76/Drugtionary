@@ -36,7 +36,7 @@ class botScreen extends Component {
   };
 
   componentDidMount() {
-    fetch("http://192.168.1.50:5000/api/drugs")
+    fetch("http://192.168.1.7:5000/api/drugs")
       .then((response) => response.json())
       .then((responseJson) => {
         this.setState({

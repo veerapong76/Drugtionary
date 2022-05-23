@@ -32,11 +32,11 @@ const DrugScreen = ({ navigation, route }) => {
 
   const getData = async () => {
     try {
-      const response = await fetch(`http://192.168.1.50:5000/api/drugs/${id}`);
+      const response = await fetch(`http://192.168.1.7:5000/api/drugs/${id}`);
       const json = await response.json();
       setData(json);
       const response2 = await fetch(
-        `http://192.168.1.50:5000/api/user/${auth.currentUser.email}`
+        `http://192.168.1.7:5000/api/user/${auth.currentUser.email}`
       );
       const json2 = await response2.json();
       setUser(json2);
@@ -56,7 +56,7 @@ const DrugScreen = ({ navigation, route }) => {
     const User = {
       drugs: user.drugs,
     };
-    axios.put(`http://192.168.1.50:5000/api/user/${user._id}`, User);
+    axios.put(`http://192.168.1.7:5000/api/user/${user._id}`, User);
   };
 
   return (
